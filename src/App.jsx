@@ -1,9 +1,10 @@
-import { createSignal } from 'solid-js';
-import { Router, Route } from "@solidjs/router";
+import { createSignal } from 'solid-js'
+import { Router, Route, A } from "@solidjs/router"
 
 import banner from './assets/banner.png'
-import Home from './pages/Home';
-import Cart from './pages/Cart';
+import Home from './pages/Home'
+import Cart from './pages/Cart'
+import Plant from './pages/Plant'
 
 function App() {
   const [darkTheme, setDarkTheme] = createSignal(false)
@@ -15,7 +16,7 @@ function App() {
   return (
     <div class="container m-auto">
       <header
-        class="my-4 p-2 text-xl flex items-center gap-4"
+        class="my-4 p-2 text-xl flex items-center gap-4 justify-end"
         classList={{ "bg-neutral-900": darkTheme(), "text-white": darkTheme() }}
       >
         <span
@@ -24,7 +25,7 @@ function App() {
         >
           light_mode
         </span>
-        <h1>Ninja Merch</h1>
+        <h1 class="mr-auto">Plants</h1>
       </header>
 
       <a href="/">Home</a>
@@ -35,6 +36,7 @@ function App() {
       <Router>
         <Route path="/" component={Home}></Route>
         <Route path="/cart" component={Cart}></Route>
+        <Route path="/plant/:id" component={Plant}></Route>
       </Router>
 
     </div>

@@ -2,31 +2,30 @@ import { createResource } from 'solid-js';
 import Card from '../components/Card';
 import apiKey from '../../.api-key.js'
 
+const stockUrl = "./src/assets/stock_plant.jpg"
+
 const fetchPlants = async () => {
     const res = await fetch(`https://perenual.com/api/species-list?key=${apiKey}`)
-
-    return res.json()
+    const body = await res.json()
+    return body.data
 }
 
 function Home() {
     const [plants] = createResource(fetchPlants)
     return (
-        <div class="grid grid-cols-4 gap-10 my-4">
-            {/* <Card title="ninja tee"/> */}
-            <Card rounded={true} flat={false}>
-                <h2>Ninja Tee, Black</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex explicabo impedit vero, optio minus laborum.</p>
-                <button class="btn">view!</button>
-            </Card>
-            <Card rounded={false} flat={true}>
-                <h2>Ninja Tee, White</h2>
-                <button class="btn">view!</button>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere ea rerum fugit accusantium consectetur expedita.</p>
-                <p>Only £10</p>
-            </Card>
-
-            <p>{console.log(plants(), plants.loading)}</p>
-        </div>
+        <Show when={plants()} fallback={<p>Loading...</p>}>   
+            <div class="grid grid-cols-4 gap-10 my-4">
+                <For each={plants()}>
+                    {plant => (
+                        <Card rounded={true} flat={true}>
+                            <img src={plant.default_image?.medium_url || stockUrl} alt="plant" />
+                            <h2 class="my-3 font-bold">{plant.common_name}</h2>
+                            <a href={"/plant/" + plant.id} class="btn">View Plant Details</a>
+                        </Card>
+                    )}
+                </For>
+            </div>
+        </Show>
     )
 }
 

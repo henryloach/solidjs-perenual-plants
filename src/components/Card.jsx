@@ -1,5 +1,5 @@
 function Card(props) {
-    const { title, rounded, flat, children } = props
+    const { rounded, flat, children } = props
     return (
         <div
             class="bg-white p-4 text-center rounded-md shadow-md"
